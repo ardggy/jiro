@@ -70,7 +70,8 @@ def test_文字列の途中でeofは受理しない():
     s = parser.Source("あいうえお")
     p = parser.eof()
 
-    with pytest.raises(Exception):
+    with pytest.raises(parser.ParserError,
+                       match=r"Parse Error: unexpected EOF at line 1"):
         result = p(s)
 
 def test_スペース():
