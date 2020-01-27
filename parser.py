@@ -118,6 +118,11 @@ class TryParser(Parser):
         backup = copy.deepcopy(s)
         return self.p(backup)
 
+## Error
+class ParserError(Exception):
+    """Error for parsing"""
+    pass
+
 ## concrete parsers
 def satisfy(p):
     def parse(s):
@@ -126,7 +131,7 @@ def satisfy(p):
             s.next()
             return c
         else:
-            raise Exception("not satisfy")
+            raise ParserError(f"Parse Error: unexpected character {c} at line 1")
     return Parser(parse)
 
 def anyChar():
@@ -160,6 +165,6 @@ def eof():
         if (s.isEmpty()):
             return ""
         else:
-            raise Exception("not EOF")
+            raise ParserError(f"Parse Error: unexpected EOF at line 1")
 
     return Parser(parse)
